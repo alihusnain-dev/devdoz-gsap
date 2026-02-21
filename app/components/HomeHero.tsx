@@ -58,7 +58,7 @@ const HomeHero = () => {
             {/* Background Glow */}
             <div
                 ref={glowRef}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/20 blur-[150px] rounded-full pointer-events-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[150px] rounded-full pointer-events-none"
             />
 
             <h1
@@ -74,7 +74,7 @@ const HomeHero = () => {
             </h1>
 
             <div className="mt-8 flex flex-col items-center gap-2 z-10">
-                <div className="h-[1px] w-12 bg-blue-500/50 mb-2"></div>
+                <div className="h-px w-12 bg-primary/50 mb-2"></div>
                 <div className="text-white/40 font-medium tracking-[0.3em] uppercase text-xs">
                     Digital Experience Studio
                 </div>
