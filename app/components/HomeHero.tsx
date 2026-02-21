@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { gsap } from "gsap";
 
 const HomeHero = () => {
