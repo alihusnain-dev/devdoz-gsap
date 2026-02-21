@@ -1,14 +1,18 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 import HomeHero from './components/HomeHero'
 import HomeLoading from './components/HomeLoading'
 
-const page = () => {
+const Page = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
-    <div>
-      <HomeLoading />
-      <HomeHero />
-    </div>
+    <main>
+      <HomeLoading onComplete={() => setIsLoading(false)} />
+      <HomeHero isLoaded={!isLoading} />
+    </main>
   )
 }
 
-export default page
+export default Page

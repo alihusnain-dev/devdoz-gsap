@@ -2,7 +2,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap';
 
-const HomeLoading = () => {
+const HomeLoading = ({ onComplete }: { onComplete: () => void }) => {
     const [count, setCount] = useState(0);
     const [isVisible, setIsVisible] = useState(true);
     const textRef = useRef<HTMLParagraphElement>(null);
@@ -39,7 +39,10 @@ const HomeLoading = () => {
     useEffect(() => {
         if (count === 100 && containerRef.current) {
             const tl = gsap.timeline({
-                onComplete: () => setIsVisible(false)
+                onComplete: () => {
+                    setIsVisible(false);
+                    onComplete();
+                }
             });
 
             tl.to(textRef.current, {
@@ -55,12 +58,12 @@ const HomeLoading = () => {
                     ease: "power4.inOut"
                 }, "-=0.4");
         }
-    }, [count]);
+    }, [count, onComplete]);
 
     if (!isVisible) return null;
 
     return (
-        <div ref={containerRef} className='fixed top-0 left-0 w-screen h-screen bg-primary z-[100] overflow-hidden'>
+        <div ref={containerRef} className='fixed top-0 left-0 w-screen h-screen bg-primary z-100 overflow-hidden'>
             <div className='w-full h-full p-[2vw] flex items-end justify-end'>
                 <p ref={textRef} className='text-[20vw] font-bold text-black leading-[0.85] select-none'>
                     {count}%

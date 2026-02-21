@@ -3,26 +3,22 @@
 import { useLayoutEffect, useRef } from 'react'
 import { gsap } from "gsap";
 
-const HomeHero = () => {
+const HomeHero = ({ isLoaded }: { isLoaded: boolean }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLHeadingElement>(null);
-    const glowRef = useRef<HTMLDivElement>(null);
+    // const glowRef = useRef<HTMLDivElement>(null);
 
     useLayoutEffect(() => {
+        if (!isLoaded) return;
+
         const ctx = gsap.context(() => {
-            gsap.set("span", {
-                y: -400,
+
+            gsap.from("span", {
+                y: -300,
                 opacity: 0,
                 duration: 1,
-            });
-
-            gsap.to("span", {
-                y: 0,
-                opacity: 1,
-                duration: 1.5,
-                stagger: 0.1,
-                ease: "power4.out",
-                delay: 0.2
+                stagger: 0.25,
+                ease: "easeIn",
             });
 
             gsap.to(textRef.current, {
@@ -30,31 +26,33 @@ const HomeHero = () => {
                 duration: 2,
                 repeat: -1,
                 yoyo: true,
+                stagger: 0.2,
                 ease: "sine.inOut"
             });
 
-            const handleMouseMove = (e: MouseEvent) => {
-                const { clientX, clientY } = e;
-                gsap.to(glowRef.current, {
-                    x: clientX - window.innerWidth / 2,
-                    y: clientY - window.innerHeight / 2,
-                    duration: 1,
-                    ease: "power2.out"
-                });
-            };
+            // const handleMouseMove = (e: MouseEvent) => {
+            //     const { clientX, clientY } = e;
+            //     gsap.to(glowRef.current, {
+            //         x: clientX - window.innerWidth / 2,
+            //         y: clientY - window.innerHeight / 2,
+            //         duration: 1,
+            //         ease: "power2.out"
+            //     });
+            // };
 
-            window.addEventListener("mousemove", handleMouseMove);
-            return () => window.removeEventListener("mousemove", handleMouseMove);
+            // window.addEventListener("mousemove", handleMouseMove);
+            // return () => window.removeEventListener("mousemove", handleMouseMove);
         }, containerRef);
 
         return () => ctx.revert();
-    }, []);
+    }, [isLoaded]);
 
     return (
         <div
             ref={containerRef}
             className='h-screen w-full flex flex-col items-center justify-center bg-[#0a0a0a] overflow-x-hidden relative'
         >
+
             {/* Background Glow */}
             {/* <div
                 ref={glowRef}
@@ -68,7 +66,7 @@ const HomeHero = () => {
             />
             <h1
                 ref={textRef}
-                className='text-[20vw] font-medium flex items-center justify-center text-white tracking-tighter select-none z-10'
+                className='text-[25vw] font-medium flex items-center justify-center lowercase text-white tracking-tighter select-none z-10'
             >
                 <span className="inline-block">D</span>
                 <span className="inline-block">e</span>
@@ -78,7 +76,7 @@ const HomeHero = () => {
                 <span className="inline-block">z</span>
             </h1>
 
-            <div className="mt-8 flex flex-col items-center gap-2 z-10">
+            <div className="flex flex-col items-center gap-2 z-10">
                 <div className="h-px w-12 bg-primary mb-2"></div>
                 <div className="text-white/40 font-medium tracking-[0.3em] uppercase text-xs">
                     Digital Experience Studio
