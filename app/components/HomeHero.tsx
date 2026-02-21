@@ -10,10 +10,13 @@ const HomeHero = () => {
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            // Initial state: hidden
-            gsap.set("span", { y: -400, opacity: 0, duration: 1, });
+            gsap.set("span", {
+                y: -400,
+                opacity: 0,
+                duration: 1,
+                delay: 0.2
+            });
 
-            // Animate spans in
             gsap.to("span", {
                 y: 0,
                 opacity: 1,
@@ -23,7 +26,6 @@ const HomeHero = () => {
                 delay: 0.2
             });
 
-            // Subtle floating animation for the whole heading
             gsap.to(textRef.current, {
                 y: 10,
                 duration: 2,
@@ -32,7 +34,6 @@ const HomeHero = () => {
                 ease: "sine.inOut"
             });
 
-            // Mouse move effect for the glow
             const handleMouseMove = (e: MouseEvent) => {
                 const { clientX, clientY } = e;
                 gsap.to(glowRef.current, {
@@ -58,12 +59,12 @@ const HomeHero = () => {
             {/* Background Glow */}
             <div
                 ref={glowRef}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[150px] rounded-full pointer-events-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vw] bg-primary/20 blur-[150px] rounded-full pointer-events-none"
             />
 
             <h1
                 ref={textRef}
-                className='text-[20vw] font-extrabold flex items-center justify-center text-white tracking-tighter select-none z-10'
+                className='text-[20vw] font-medium flex items-center justify-center text-white tracking-tighter select-none z-10'
             >
                 <span className="inline-block">D</span>
                 <span className="inline-block">e</span>
@@ -74,7 +75,7 @@ const HomeHero = () => {
             </h1>
 
             <div className="mt-8 flex flex-col items-center gap-2 z-10">
-                <div className="h-px w-12 bg-primary/50 mb-2"></div>
+                <div className="h-px w-12 bg-primary mb-2"></div>
                 <div className="text-white/40 font-medium tracking-[0.3em] uppercase text-xs">
                     Digital Experience Studio
                 </div>
