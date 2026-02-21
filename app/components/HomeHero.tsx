@@ -14,7 +14,6 @@ const HomeHero = () => {
                 y: -400,
                 opacity: 0,
                 duration: 1,
-                delay: 0.2
             });
 
             gsap.to("span", {
@@ -54,14 +53,19 @@ const HomeHero = () => {
     return (
         <div
             ref={containerRef}
-            className='h-screen w-full flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden relative'
+            className='h-screen w-full flex flex-col items-center justify-center bg-[#0a0a0a] overflow-x-hidden relative'
         >
             {/* Background Glow */}
-            <div
+            {/* <div
                 ref={glowRef}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vw] bg-primary/20 blur-[150px] rounded-full pointer-events-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vw] bg-primary/20 blur-[250px] rounded-full pointer-events-none"
+            /> */}
+            <div
+                className="absolute top-[10%] -left-100 w-[40vw] h-[40vw] bg-primary/15 blur-[300px] rounded-full pointer-events-none"
             />
-
+            <div
+                className="absolute top-[10%] -right-100 w-[40vw] h-[40vw] bg-primary/15 blur-[300px] rounded-full pointer-events-none"
+            />
             <h1
                 ref={textRef}
                 className='text-[20vw] font-medium flex items-center justify-center text-white tracking-tighter select-none z-10'
