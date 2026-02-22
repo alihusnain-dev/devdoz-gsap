@@ -150,6 +150,18 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      {/* 3. Scroll Prompt */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 animate-bounce">
+        <div className="w-px h-12 bg-white/20"></div>
+        <div className="text-white/30 text-xs tracking-[0.3em] uppercase">
+          Scroll
+        </div>
+      </div>
+      {/* Video Section below Hero */}
+      <div className="h-screen w-full flex items-center justify-center bg-white">
+
+      </div>
     </main>
   )
 }
