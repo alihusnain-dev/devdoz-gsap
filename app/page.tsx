@@ -123,16 +123,17 @@ const Page = () => {
   useEffect(() => {
     const svg = document.querySelector("#curvedline svg");
     const path = document.querySelector("#curvedline svg path");
-    const finalPath = "M 0 100 Q 750 100 1500 100";
+    const finalPath = "M 0 100 Q 500 100 900 100";
 
     const handleMouseMove = (dets: any) => {
       const rect = svg?.getBoundingClientRect();
       if (!rect) return;
 
       const relativeY = dets.clientY - rect.top;
-      // We want to limit the distortion to stay within a reasonable range
       const cappedY = Math.max(0, Math.min(200, relativeY));
-      const distortionPath = `M 0 100 Q 750 ${cappedY} 1500 100`;
+      const relativeX = dets.clientX - rect.left;
+      const cappedX = Math.max(0, Math.min(200, relativeX));
+      const distortionPath = `M 0 100 Q ${cappedX} ${cappedY} 900 100`;
 
       gsap.to(path, {
         attr: { d: distortionPath },
@@ -209,9 +210,9 @@ const Page = () => {
         </div>
       </div>
 
-      <div className='flex items-center justify-center w-full h-62' id="curvedline">
-        <svg width="100%" height="160" viewBox="0 0 1500 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-          <path d="M 0 100 Q 750 100 1500 100" stroke="white" fill="transparent" />
+      <div className='flex items-center justify-center w-full h-100' id="curvedline">
+        <svg width="100%" height="100%" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <path d="M 0 100 Q 500 100 900 100" stroke="white" fill="transparent" />
         </svg>
       </div>
 
