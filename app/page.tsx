@@ -82,6 +82,19 @@ const Page = () => {
             scrub: 2,
           }
         });
+        gsap.to("#scrollHorizent h4", {
+          transform: "translateX(-150%)",
+          duration: 1.2,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: "#scrollHorizent",
+            scroller: "body",
+            start: "top 0%",
+            end: "top -150%",
+            scrub: 2,
+            pin: true,
+          }
+        });
       });
       return () => ctx.revert();
     }
@@ -167,6 +180,13 @@ const Page = () => {
           </div>
         </div>
       </div>
+      {/* Hoorizent text scroll Section  */}
+      <div id="scrollHorizent" className="max-h-screen w-full bg-primary">
+        <h4 className='text-black text-[35vw] font-bold uppercase whitespace-nowrap m-0 p-0'>
+          Experiences
+        </h4>
+      </div>
+      <div className='h-screen w-ful'></div>
     </main>
   )
 }
