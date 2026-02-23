@@ -171,6 +171,12 @@ const Page = () => {
         </div>
       </div>
 
+      <div className='flex items-center justify-center w-full h-40'>
+        <svg width="100%" height="160" viewBox="0 0 1500 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <path d="M 0 100 Q 750 100 1500 100" stroke="white" fill="transparent" />
+        </svg>
+      </div>
+
       {/* 3. Video Section */}
       <div className="h-screen w-full flex items-center justify-center p-[5vw]">
         <div id='videoSec' className="w-full h-full bg-white/10 rounded-[40px] border border-white/5 overflow-hidden">
@@ -186,6 +192,7 @@ const Page = () => {
           Experiences
         </h4>
       </div>
+
       <div className='h-screen w-ful'></div>
     </main>
   )
