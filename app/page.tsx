@@ -2,11 +2,13 @@
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Page = () => {
   // States
   const [count, setCount] = useState(0);
-  const [isLoaderFinished, setIsLoaderFinished] = useState(false);
 
   // Refs for Loader
   const loaderContainerRef = useRef<HTMLDivElement>(null);
@@ -16,6 +18,7 @@ const Page = () => {
   const heroContainerRef = useRef<HTMLDivElement>(null);
   const heroTextRef = useRef<HTMLHeadingElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
+  const videoSectionRef = useRef<HTMLDivElement>(null);
 
   // 1. Counter Logic
   useEffect(() => {
@@ -27,16 +30,15 @@ const Page = () => {
         }
         return prevCount + 1;
       });
-    }, 25);
+    }, 20);
     return () => clearInterval(interval);
   }, []);
 
+  // 2. Loading Exit and Title Animation
   useEffect(() => {
     if (count === 100) {
       const ctx = gsap.context(() => {
-        const tl = gsap.timeline({
-          onComplete: () => setIsLoaderFinished(true)
-        });
+        const tl = gsap.timeline();
 
         tl.to(loaderTextRef.current, {
           y: -100,
@@ -45,11 +47,11 @@ const Page = () => {
           ease: "power3.in",
           delay: 0.3
         })
-        tl.to(loaderContainerRef.current, {
-          yPercent: -100,
-          duration: 1.2,
-          ease: "power4.inOut"
-        }, "-=0.4");
+          .to(loaderContainerRef.current, {
+            yPercent: -100,
+            duration: 1.2,
+            ease: "power4.inOut"
+          }, "-=0.4");
 
         tl.from("h1 span", {
           y: 300,
@@ -68,11 +70,24 @@ const Page = () => {
           ease: "sine.inOut"
         });
 
+        gsap.from("#videoSec", {
+          scale: 0.5,
+          borderRadius: "100px",
+          duration: 1.2,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: "#videoSec",
+            start: "top bottom",
+            end: "top 20%",
+            scrub: 2,
+          }
+        });
       });
       return () => ctx.revert();
     }
   }, [count]);
 
+  // 3. Mouse Follow Logic
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const handleMouseMove = (e: MouseEvent) => {
@@ -90,26 +105,24 @@ const Page = () => {
     }, heroContainerRef);
 
     return () => ctx.revert();
-  }, [isLoaderFinished]);
+  });
 
   return (
     <main className="relative overflow-hidden bg-[#0a0a0a]">
       {/* 1. Loading Section */}
-      {!isLoaderFinished && (
-        <div
-          ref={loaderContainerRef}
-          className='fixed top-0 left-0 w-screen h-screen bg-primary z-[100] overflow-hidden'
-        >
-          <div className='w-full h-full p-[2vw] flex items-end justify-end'>
-            <p
-              ref={loaderTextRef}
-              className='text-[20vw] font-bold text-black leading-[0.85] select-none'
-            >
-              {count}%
-            </p>
-          </div>
+      <div
+        ref={loaderContainerRef}
+        className='fixed top-0 left-0 w-screen h-screen bg-primary z-[100] overflow-hidden'
+      >
+        <div className='w-full h-full p-[2vw] flex items-end justify-end'>
+          <p
+            ref={loaderTextRef}
+            className='text-[20vw] font-bold text-black leading-[0.85] select-none'
+          >
+            {count}%
+          </p>
         </div>
-      )}
+      </div>
 
       {/* 2. Hero Section */}
       <div
@@ -127,7 +140,7 @@ const Page = () => {
 
         <h1
           ref={heroTextRef}
-          className='text-[22vw] font-medium flex items-center justify-center lowercase text-white tracking-tighter select-none z-10'
+          className='text-[25vw] font-medium flex items-center justify-center lowercase text-white tracking-tighter select-none z-10'
         >
           <span className="inline-block">d</span>
           <span className="inline-block">e</span>
@@ -139,22 +152,20 @@ const Page = () => {
 
         <div className="flex flex-col items-center gap-2 z-10 mt-[-2vw]">
           <div className="h-px w-16 bg-primary/60 mb-2"></div>
-          <div className="text-white/40 font-medium tracking-[0.4em] uppercase text-[0.6rem]">
-            Digital Experience Studio
+          <div className="text-white/50 font-medium tracking-[0.4em] uppercase text-md">
+            Digital Experiences
           </div>
         </div>
       </div>
 
-      {/* 3. Scroll Prompt */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 animate-bounce">
-        <div className="w-px h-12 bg-white/20"></div>
-        <div className="text-white/30 text-xs tracking-[0.3em] uppercase">
-          Scroll
+      {/* 3. Video Section */}
+      <div className="h-screen w-full flex items-center justify-center p-[5vw]">
+        <div id='videoSec' className="w-full h-full bg-white/10 rounded-[40px] border border-white/5 overflow-hidden">
+          {/* Placeholder for video content */}
+          <div className="w-full h-full flex items-center justify-center text-white/20 text-4xl font-bold uppercase tracking-widest">
+            Showreel
+          </div>
         </div>
-      </div>
-      {/* Video Section below Hero */}
-      <div className="h-screen w-full flex items-center justify-center bg-white">
-
       </div>
     </main>
   )
