@@ -31,7 +31,6 @@ const Page = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // 2. Loader Exit Animation
   useEffect(() => {
     if (count === 100) {
       const ctx = gsap.context(() => {
@@ -46,41 +45,36 @@ const Page = () => {
           ease: "power3.in",
           delay: 0.3
         })
-          .to(loaderContainerRef.current, {
-            yPercent: -100,
-            duration: 1.2,
-            ease: "power4.inOut"
-          }, "-=0.4");
+        tl.to(loaderContainerRef.current, {
+          yPercent: -100,
+          duration: 1.2,
+          ease: "power4.inOut"
+        }, "-=0.4");
+
+        tl.from("h1 span", {
+          y: 300,
+          opacity: 0,
+          duration: 1.2,
+          stagger: 0.1,
+          ease: "power4.out",
+          delay: 0.1
+        });
+
+        tl.to(heroTextRef.current, {
+          y: 15,
+          duration: 2.5,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+
       });
       return () => ctx.revert();
     }
   }, [count]);
 
-  // 3. Hero Entrance Animation
   useLayoutEffect(() => {
-    if (!isLoaderFinished) return;
-
     const ctx = gsap.context(() => {
-      // Initial split-text entrance
-      gsap.from("h1 span", {
-        y: 300,
-        opacity: 0,
-        duration: 1.2,
-        stagger: 0.1,
-        ease: "power4.out",
-        delay: 0.1
-      });
-
-      // Gentle floating loop
-      gsap.to(heroTextRef.current, {
-        y: 15,
-        duration: 2.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
-
-      // Interactive Mouse Follow
       const handleMouseMove = (e: MouseEvent) => {
         const { clientX, clientY } = e;
         gsap.to(glowRef.current, {
