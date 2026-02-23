@@ -120,6 +120,44 @@ const Page = () => {
     return () => ctx.revert();
   });
 
+  useEffect(() => {
+    const svg = document.querySelector("#curvedline svg");
+    const path = document.querySelector("#curvedline svg path");
+    const finalPath = "M 0 100 Q 750 100 1500 100";
+
+    const handleMouseMove = (dets: any) => {
+      const rect = svg?.getBoundingClientRect();
+      if (!rect) return;
+
+      const relativeY = dets.clientY - rect.top;
+      // We want to limit the distortion to stay within a reasonable range
+      const cappedY = Math.max(0, Math.min(200, relativeY));
+      const distortionPath = `M 0 100 Q 750 ${cappedY} 1500 100`;
+
+      gsap.to(path, {
+        attr: { d: distortionPath },
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(path, {
+        attr: { d: finalPath },
+        duration: 1.5,
+        ease: "elastic.out(1, 0.3)"
+      });
+    };
+
+    svg?.addEventListener("mousemove", handleMouseMove);
+    svg?.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      svg?.removeEventListener("mousemove", handleMouseMove);
+      svg?.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
+
   return (
     <main className="relative overflow-hidden bg-[#0a0a0a]">
       {/* 1. Loading Section */}
@@ -171,14 +209,14 @@ const Page = () => {
         </div>
       </div>
 
-      <div className='flex items-center justify-center w-full h-40'>
+      <div className='flex items-center justify-center w-full h-62' id="curvedline">
         <svg width="100%" height="160" viewBox="0 0 1500 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
           <path d="M 0 100 Q 750 100 1500 100" stroke="white" fill="transparent" />
         </svg>
       </div>
 
       {/* 3. Video Section */}
-      <div className="h-screen w-full flex items-center justify-center p-[5vw]">
+      <div className="h-screen w-full flex items-center justify-center p-[5vw] my-20">
         <div id='videoSec' className="w-full h-full bg-white/10 rounded-[40px] border border-white/5 overflow-hidden">
           {/* Placeholder for video content */}
           <div className="w-full h-full flex items-center justify-center text-white/20 text-4xl font-bold uppercase tracking-widest">
