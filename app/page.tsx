@@ -121,41 +121,44 @@ const Page = () => {
   });
 
   useEffect(() => {
-    const svg = document.querySelector("#curvedline svg");
-    const path = document.querySelector("#curvedline svg path");
-    const finalPath = "M 0 100 Q 500 100 900 100";
+    const svgElement = document.querySelector("#curvedline svg") as SVGSVGElement | null;
+    const pathElement = document.querySelector("#curvedline svg path") as SVGPathElement | null;
+    if (!svgElement || !pathElement) return;
 
-    const handleMouseMove = (dets: any) => {
-      const rect = svg?.getBoundingClientRect();
-      if (!rect) return;
+    const finalPath = "M 0 100 Q 450 100 900 100";
 
-      const relativeY = dets.clientY - rect.top;
-      const cappedY = Math.max(0, Math.min(200, relativeY));
-      const relativeX = dets.clientX - rect.left;
-      const cappedX = Math.max(0, Math.min(200, relativeX));
-      const distortionPath = `M 0 100 Q ${cappedX} ${cappedY} 900 100`;
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = svgElement.getBoundingClientRect();
 
-      gsap.to(path, {
+      const relX = e.clientX - rect.left;
+      const relY = e.clientY - rect.top;
+      const svgX = (relX / rect.width) * 900;
+      const svgY = (relY / rect.height) * 200;
+
+
+      const distortionPath = `M 0 100 Q ${svgX} ${svgY} 900 100`;
+
+      gsap.to(pathElement, {
         attr: { d: distortionPath },
-        duration: 0.3,
+        duration: 0.5,
         ease: "power2.out"
       });
     };
 
     const handleMouseLeave = () => {
-      gsap.to(path, {
+      gsap.to(pathElement, {
         attr: { d: finalPath },
         duration: 1.5,
-        ease: "elastic.out(1, 0.3)"
+        ease: "elastic.out(1, 0.2)"
       });
     };
 
-    svg?.addEventListener("mousemove", handleMouseMove);
-    svg?.addEventListener("mouseleave", handleMouseLeave);
+    svgElement.addEventListener("mousemove", handleMouseMove);
+    svgElement.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
-      svg?.removeEventListener("mousemove", handleMouseMove);
-      svg?.removeEventListener("mouseleave", handleMouseLeave);
+      svgElement.removeEventListener("mousemove", handleMouseMove);
+      svgElement.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, []);
 
@@ -210,9 +213,23 @@ const Page = () => {
         </div>
       </div>
 
-      <div className='flex items-center justify-center w-full h-100' id="curvedline">
+      <div className='flex items-center justify-center w-full h-[400px] cursor-pointer' id="curvedline">
         <svg width="100%" height="100%" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-          <path d="M 0 100 Q 500 100 900 100" stroke="white" fill="transparent" />
+          <defs>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+              <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <path
+            d="M 0 100 Q 450 100 900 100"
+            stroke="white"
+            fill="transparent"
+            style={{ filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))' }}
+          />
         </svg>
       </div>
 
