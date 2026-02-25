@@ -4,6 +4,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
+import Navbar from './components/Navbar';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -201,6 +202,8 @@ const Page = () => {
 
   return (
     <main className="relative overflow-hidden bg-[#0a0a0a]">
+      {/* navBar. */}
+      <Navbar />
       {/* cursor */}
       <div id="cursor" className='fixed w-8 h-8 bg-primary rounded-full flex justify-center items-center text-[7px] text-center text-black z-1'>
 
