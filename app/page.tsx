@@ -3,6 +3,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,7 +21,6 @@ const Page = () => {
   const glowRef = useRef<HTMLDivElement>(null);
   const videoSectionRef = useRef<HTMLDivElement>(null);
 
-  // 1. Counter Logic
   useEffect(() => {
     const interval = setInterval(() => {
       setCount((prevCount) => {
@@ -34,22 +34,27 @@ const Page = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // 2. Loading Exit and Title Animation
   useEffect(() => {
     if (count === 100) {
       const ctx = gsap.context(() => {
         const tl = gsap.timeline();
 
+        tl.to(loaderContainerRef.current, {
+          duration: .5,
+          scale: .7,
+          borderRadius: "50px",
+          ease: "power4.inOut"
+        });
         tl.to(loaderTextRef.current, {
-          y: -100,
           opacity: 0,
           duration: 0.8,
           ease: "power3.in",
           delay: 0.3
         })
+
           .to(loaderContainerRef.current, {
-            yPercent: -100,
-            duration: 1.2,
+            duration: .5,
+            scale: 0,
             ease: "power4.inOut"
           }, "-=0.4");
 
@@ -105,12 +110,20 @@ const Page = () => {
     const ctx = gsap.context(() => {
       const handleMouseMove = (e: MouseEvent) => {
         const { clientX, clientY } = e;
+        // Background Glow animation
         gsap.to(glowRef.current, {
           x: clientX - window.innerWidth / 2,
           y: clientY - window.innerHeight / 2,
           duration: 1.2,
           ease: "power2.out"
         });
+        // Mini Cursor animation
+        gsap.to("#cursor", {
+          x: clientX - 15,
+          y: clientY - 15,
+          duration: .3,
+        });
+
       };
 
       window.addEventListener("mousemove", handleMouseMove);
@@ -164,6 +177,9 @@ const Page = () => {
 
   return (
     <main className="relative overflow-hidden bg-[#0a0a0a]">
+      <div id="cursor" className='fixed w-8 h-8 border-4 border-primary bg-primary/80 rounded-full'>
+
+      </div>
       {/* 1. Loading Section */}
       <div
         ref={loaderContainerRef}
@@ -230,6 +246,7 @@ const Page = () => {
             fill="transparent"
             style={{ filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))' }}
           />
+
         </svg>
       </div>
 
@@ -247,6 +264,13 @@ const Page = () => {
         <h4 className='text-black text-[35vw] font-bold uppercase whitespace-nowrap m-0 p-0'>
           Experiences
         </h4>
+      </div>
+
+      {/* Image Section Learn More */}
+      <div>
+        <div id="image">
+          <img src="https://images.unsplash.com/photo-1504805572947-34fad45aed93?q=80&w=2607&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" className='object-cover ' />
+        </div>
       </div>
 
       <div className='h-screen w-ful'></div>
