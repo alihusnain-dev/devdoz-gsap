@@ -4,7 +4,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
-import Navbar from './components/Navbar';
+import Navbar from '../components/Navbar';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -211,7 +211,7 @@ const Page = () => {
       {/* 1. Loading Section */}
       <div
         ref={loaderContainerRef}
-        className='fixed top-0 left-0 w-screen h-screen bg-primary z-[100] overflow-hidden'
+        className='fixed top-0 left-0 w-screen h-screen bg-primary z-100 overflow-hidden'
       >
         <div className='w-full h-full p-[2vw] flex items-end justify-end'>
           <p
@@ -239,7 +239,7 @@ const Page = () => {
 
         <h1
           ref={heroTextRef}
-          className='text-[25vw] font-medium flex items-center justify-center lowercase text-white tracking-tighter select-none z-10'
+          className='text-[25vw] font-medium flex items-center justify-center lowercase text-white tracking-tighter select-none'
         >
           <span className="inline-block">d</span>
           <span className="inline-block">e</span>
@@ -249,7 +249,7 @@ const Page = () => {
           <span className="inline-block">z</span>
         </h1>
 
-        <div className="flex flex-col items-center gap-2 z-10 mt-[-2vw]">
+        <div className="flex flex-col items-center gap-2 mt-[-2vw]">
           <div className="h-px w-16 bg-primary/60 mb-2"></div>
           <div className="text-white/50 font-medium tracking-[0.4em] uppercase text-md">
             Digital Experiences
