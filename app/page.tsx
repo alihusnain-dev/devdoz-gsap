@@ -202,7 +202,7 @@ const Page = () => {
   return (
     <main className="relative overflow-hidden bg-[#0a0a0a]">
       {/* cursor */}
-      <div id="cursor" className='fixed w-8 h-8 bg-primary rounded-full flex justify-center items-center text-[7px] text-center text-black z-40'>
+      <div id="cursor" className='fixed w-8 h-8 bg-primary rounded-full flex justify-center items-center text-[7px] text-center text-black z-[1]'>
 
       </div>
       {/* 1. Loading Section */}
@@ -294,7 +294,7 @@ const Page = () => {
       {/* Image Section Learn More */}
       <div className='my-20'>
         <div id="image" className='w-[80vw] h-[70vh] mx-auto rounded-2xl overflow-hidden relative'>
-          <div id="overlay" className='w-full h-full bg-transparent absolute z-50'></div>
+          <div id="overlay" className='w-full h-full bg-transparent absolute z-[2]'></div>
           <Image
             src="https://images.unsplash.com/photo-1583144568008-76743354fa5a?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Showcase"
