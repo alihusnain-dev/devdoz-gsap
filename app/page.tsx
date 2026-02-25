@@ -185,6 +185,8 @@ const Page = () => {
         gsap.to(cursor, {
           scale: 2,
           duration: 0.3,
+          backgroundColor: "#fff",
+
           ease: "power2.out"
         });
       });
@@ -192,6 +194,7 @@ const Page = () => {
         if (cursor) cursor.innerHTML = "";
         gsap.to(cursor, {
           scale: 1,
+          backgroundColor: "#bef948",
           duration: 0.3,
           ease: "power2.out"
         });
