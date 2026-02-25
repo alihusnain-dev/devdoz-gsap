@@ -205,7 +205,7 @@ const Page = () => {
       {/* navBar. */}
       <Navbar />
       {/* cursor */}
-      <div id="cursor" className='fixed w-8 h-8 bg-primary rounded-full flex justify-center items-center text-[7px] text-center text-black z-99 pointer-events-none'>
+      <div id="cursor" className='fixed w-8 h-8 bg-primary rounded-full flex justify-center items-center text-[7px] text-center text-black z-1 pointer-events-none'>
 
       </div>
       {/* 1. Loading Section */}
