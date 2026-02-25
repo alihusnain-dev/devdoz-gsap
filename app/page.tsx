@@ -174,10 +174,33 @@ const Page = () => {
       svgElement.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, []);
+  // Image Learn More LOgic
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const image = document.querySelector("#image") as HTMLImageElement | null;
+      const cursor = document.querySelector("#cursor") as HTMLDivElement | null;
+      image?.addEventListener("mouseenter", () => {
+        if (cursor) cursor.innerHTML = "Learn More"
+        gsap.to(cursor, {
+          scale: 2,
+          duration: .3,
+        })
+      })
+      image?.addEventListener("mouseleave", () => {
+        if (cursor) cursor.innerHTML = ""
+        gsap.to(cursor, {
+          scale: 1,
+          duration: .3,
+        })
+      })
+    });
+    return () => ctx.revert();
+  })
 
   return (
     <main className="relative overflow-hidden bg-[#0a0a0a]">
-      <div id="cursor" className='fixed w-8 h-8 border-4 border-primary bg-primary/80 rounded-full'>
+      {/* cursor */}
+      <div id="cursor" className='fixed w-8 h-8 bg-primary rounded-full flex justify-center items-center text-[7px] text-center text-black'>
 
       </div>
       {/* 1. Loading Section */}
@@ -267,9 +290,9 @@ const Page = () => {
       </div>
 
       {/* Image Section Learn More */}
-      <div>
-        <div id="image">
-          <img src="https://images.unsplash.com/photo-1504805572947-34fad45aed93?q=80&w=2607&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" className='object-cover ' />
+      <div className='my-20'>
+        <div id="image" className='w-[80vw] h-[70vh] mx-auto border border-white rounded-2xl overflow-hidden'>
+          <img src="https://images.unsplash.com/photo-1583144568008-76743354fa5a?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" className='object-cover w-full h-full ' />
         </div>
       </div>
 
