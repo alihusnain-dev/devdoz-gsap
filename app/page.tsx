@@ -21,7 +21,6 @@ const Page = () => {
   const heroContainerRef = useRef<HTMLDivElement>(null);
   const heroTextRef = useRef<HTMLHeadingElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
-  const videoSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
