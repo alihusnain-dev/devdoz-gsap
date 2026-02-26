@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
 import Navbar from '../components/Navbar';
+import ScrollMarquee from '@/components/ScrollMarquee';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -305,10 +306,12 @@ const Page = () => {
             src="https://images.unsplash.com/photo-1583144568008-76743354fa5a?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Showcase"
             fill
-            className='object-cover group-hover:scale-110 transition-all duration-500 ease-in-out'
+            className='object-cover group-hover:scale-110 transition-all duration-700 ease'
           />
         </div>
       </div>
+      {/* Scrolling Marquee  */}
+      <ScrollMarquee />
 
       <div className='h-screen w-ful'></div>
     </main>
