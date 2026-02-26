@@ -183,9 +183,9 @@ const Page = () => {
       image?.addEventListener("mouseenter", () => {
         if (cursor) cursor.innerHTML = "Learn More";
         gsap.to(cursor, {
-          scale: 2,
+          scale: 2.5,
           duration: 0.3,
-          backgroundColor: "#fff",
+          backgroundColor: "#ffffffab",
 
           ease: "power2.out"
         });
@@ -299,13 +299,13 @@ const Page = () => {
 
       {/* Image Section Learn More */}
       <div className='my-20'>
-        <div id="image" className='w-[80vw] h-[70vh] mx-auto rounded-2xl overflow-hidden relative'>
+        <div id="image" className='w-[80vw] h-[70vh] mx-auto rounded-2xl overflow-hidden relative group'>
           <div id="overlay" className='w-full h-full bg-transparent absolute z-10'></div>
           <Image
             src="https://images.unsplash.com/photo-1583144568008-76743354fa5a?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Showcase"
             fill
-            className='object-cover'
+            className='object-cover group-hover:scale-110 transition-all duration-500 ease-in-out'
           />
         </div>
       </div>
