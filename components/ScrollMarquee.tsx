@@ -1,13 +1,13 @@
 'use client'
 import Image from 'next/image'
-import React, { useEffect, useRef } from 'react'
+import React, { useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger);
 
 const MarqueeGroup = () => (
-    <div className="flex items-center gap-12 md:gap-24 lg:gap-32 px-6 md:px-12">
+    <div className="flex items-center gap-12 md:gap-24 lg:gap-32 px-6 md:px-12 flex-shrink-0">
         {[
             { text: "Think Big" },
             { text: "Start Small" },
@@ -23,7 +23,7 @@ const MarqueeGroup = () => (
                         alt="arrow"
                         width={100}
                         height={100}
-                        className="marquee-arrow w-full h-full object-contain pointer-events-none transition-transform"
+                        className="marquee-arrow w-full h-full object-contain pointer-events-none"
                     />
                 </div>
             </div>
@@ -34,10 +34,12 @@ const MarqueeGroup = () => (
 const ScrollMarquee = () => {
     const marqueeContainer = useRef<HTMLDivElement>(null);
     const marqueeInner = useRef<HTMLDivElement>(null);
+    const lastDir = useRef(0);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            // Main marquee movement
+            if (!marqueeInner.current) return;
+
             gsap.to(marqueeInner.current, {
                 xPercent: -50,
                 ease: "none",
@@ -47,15 +49,17 @@ const ScrollMarquee = () => {
                     end: "bottom top",
                     scrub: 1,
                     onUpdate: (self) => {
-                        // self.direction: 1 = down (scroll down means moving forward in time)
-                        // self.direction: -1 = up
-                        const rotation = self.direction === 1 ? 180 : 0;
-                        gsap.to(".marquee-arrow", {
-                            rotate: rotation,
-                            duration: 0.5,
-                            ease: "power2.out",
-                            overwrite: true
-                        });
+                        // Avoid redundant animations by checking if direction changed
+                        if (self.direction !== lastDir.current) {
+                            lastDir.current = self.direction;
+                            const rotation = self.direction === 1 ? 180 : 0;
+                            gsap.to(".marquee-arrow", {
+                                rotate: rotation,
+                                duration: 0.4,
+                                ease: "power2.out",
+                                overwrite: true
+                            });
+                        }
                     }
                 }
             });
@@ -71,7 +75,7 @@ const ScrollMarquee = () => {
         >
             <div
                 ref={marqueeInner}
-                className="flex whitespace-nowrap will-change-transform"
+                className="flex flex-nowrap w-fit will-change-transform"
             >
                 <MarqueeGroup />
                 <MarqueeGroup />
