@@ -2,12 +2,9 @@
 import Image from 'next/image'
 import React, { useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger);
 
 const MarqueeGroup = () => (
-    <div className="flex items-center gap-12 md:gap-24 lg:gap-32 px-6 md:px-12 flex-shrink-0">
+    <div className="flex items-center gap-12 md:gap-24 lg:gap-32 px-6 md:px-12 shrink-0">
         {[
             { text: "Think Big" },
             { text: "Start Small" },
@@ -32,53 +29,47 @@ const MarqueeGroup = () => (
 );
 
 const ScrollMarquee = () => {
-    const marqueeContainer = useRef<HTMLDivElement>(null);
     const marqueeInner = useRef<HTMLDivElement>(null);
-    const lastDir = useRef(0);
+    const tweenRef = useRef<gsap.core.Tween | null>(null);
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
             if (!marqueeInner.current) return;
-
-            gsap.to(marqueeInner.current, {
+            tweenRef.current = gsap.to(marqueeInner.current, {
                 xPercent: -50,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: marqueeContainer.current,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: 1,
-                    onUpdate: (self) => {
-                        // Avoid redundant animations by checking if direction changed
-                        if (self.direction !== lastDir.current) {
-                            lastDir.current = self.direction;
-                            const rotation = self.direction === 1 ? 180 : 0;
-                            gsap.to(".marquee-arrow", {
-                                rotate: rotation,
-                                duration: 0.4,
-                                ease: "power2.out",
-                                overwrite: true
-                            });
-                        }
-                    }
-                }
+                duration: 6,
+                repeat: -1,
+                ease: "none"
             });
-        }, marqueeContainer);
+            gsap.set(".marquee-arrow", { rotate: 180 });
+        });
 
-        return () => ctx.revert();
+        const handleWheel = (e: WheelEvent) => {
+            if (!tweenRef.current) return;
+
+            if (e.deltaY > 0) {
+                gsap.to(tweenRef.current, { timeScale: 1, duration: 0.5 });
+                gsap.to(".marquee-arrow", { rotate: 180, duration: 0.5, overwrite: true });
+            } else if (e.deltaY < 0) {
+                gsap.to(tweenRef.current, { timeScale: -1, duration: 0.5 });
+                gsap.to(".marquee-arrow", { rotate: 0, duration: 0.5, overwrite: true });
+            }
+        };
+
+        window.addEventListener("wheel", handleWheel);
+
+        return () => {
+            ctx.revert();
+            window.removeEventListener("wheel", handleWheel);
+        };
     }, []);
 
     return (
-        <div
-            ref={marqueeContainer}
-            className='w-full bg-primary py-12 md:py-16 lg:py-24 overflow-hidden border-y border-black relative z-10'
-        >
+        <div className='w-full bg-primary py-8 md:py-12 lg:py-16 overflow-hidden border-y border-black relative z-10'>
             <div
                 ref={marqueeInner}
                 className="flex flex-nowrap w-fit will-change-transform"
             >
-                <MarqueeGroup />
-                <MarqueeGroup />
                 <MarqueeGroup />
                 <MarqueeGroup />
             </div>
